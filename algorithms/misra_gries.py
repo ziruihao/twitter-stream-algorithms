@@ -1,4 +1,5 @@
 import copy
+import Levenshtein
 from algorithms.frequency_estimation_algorithm import FrequencyEstimationAlgorithm
 
 class MisraGries(FrequencyEstimationAlgorithm):
@@ -11,9 +12,12 @@ class MisraGries(FrequencyEstimationAlgorithm):
 
     def process(self, token):
         print(token)
+
         # if we are already logging this token
-        if (token in dict.keys(self.est_freqs)):
-            self.est_freqs[token] += 1
+        best_match = self.found_in(token, dict.keys(self.est_freqs))
+        if (best_match is not ''):
+            self.est_freqs[best_match] += 1
+            
         else:
             # if there is still space to log this token
             if (len(dict.keys(self.est_freqs)) < self.k):
@@ -34,3 +38,19 @@ class MisraGries(FrequencyEstimationAlgorithm):
 
     def get_all_data(self):
         return self.est_freqs
+
+    # this method will return {True} if there is a word sufficiently 'close' to something in the list
+    def found_in(self, token, list):
+        if (len(list) is 0): return ''
+        else:
+            distances = []
+            for element in list:
+                distances.append({'element': element, 'distance': Levenshtein.distance(token, element)})
+            distances.sort(key=self.levenshtein_list_sorter)
+            if (distances[0]['distance'] < 1):
+                return distances[0]['element']
+            else: return ''
+
+    # sort helper for the list of Levenshtein distances
+    def levenshtein_list_sorter(self, e):
+        return e['distance']
