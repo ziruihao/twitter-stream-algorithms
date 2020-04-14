@@ -33,4 +33,3 @@ class Stream(tweepy.StreamListener):
 
     def on_error(self, status):
         print(status)
-
