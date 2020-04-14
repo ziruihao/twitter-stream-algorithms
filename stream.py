@@ -28,7 +28,7 @@ class Stream(tweepy.StreamListener):
             tweet = json.loads(data)
             self.counter += 1
             for hashtag in (tweet['entities']['hashtags']):
-                self.algorithm.process(hashtag['text'])
+                self.algorithm.process(hashtag['text'].lower())
             return True
 
     def on_error(self, status):
