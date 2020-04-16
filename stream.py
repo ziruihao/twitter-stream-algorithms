@@ -2,6 +2,7 @@ import dotenv
 import os
 import tweepy
 import json
+import re
 
 class Stream(tweepy.StreamListener):
     def __init__(self, limit, algorithm):
@@ -9,12 +10,16 @@ class Stream(tweepy.StreamListener):
         self.limit = limit
         self.counter = 0
         self.algorithm = algorithm
+        self.mode = 'hashtag'
         self.auth = tweepy.OAuthHandler(os.getenv('TWITTER_KEY'), os.getenv('TWITTER_KEY_SECRET'))
         self.auth.set_access_token(os.getenv('TWITTER_TOKEN'), os.getenv('TWITTER_TOKEN_SECRET'))
         self.stream = tweepy.Stream(self.auth, self)
 
     def set_filter(self, filters):
         self.stream.filter(track=filters)
+
+    def set_mode(self, mode):
+        self.mode = mode
 
     def close(self):
         self.stream.disconnect()
@@ -27,8 +32,14 @@ class Stream(tweepy.StreamListener):
         else:
             tweet = json.loads(data)
             self.counter += 1
-            for hashtag in (tweet['entities']['hashtags']):
-                self.algorithm.process(hashtag['text'].lower())
+            if (self.mode is 'hashtag'):
+                for hashtag in (tweet['entities']['hashtags']):
+                    self.algorithm.process(hashtag['text'].lower())
+            elif (self.mode is 'text'):
+                raw_text = tweet['text'].replace('\n', ' ')
+                for word in re.findall('\w+', raw_text):
+                    if (word is not ' '):
+                        self.algorithm.process(word.lower())
             return True
 
     def on_error(self, status):
