@@ -12,6 +12,7 @@ class MisraGries(FrequencyEstimationAlgorithm):
 
     def process(self, token):
         print(token)
+        self.stream_length += 1
 
         # if we are already logging this token
         best_match = self.found_in(token, dict.keys(self.est_freqs))
@@ -29,6 +30,9 @@ class MisraGries(FrequencyEstimationAlgorithm):
                     self.est_freqs[key] += -1
                     if (self.est_freqs[key] is 0):
                         self.est_freqs.pop(key)
+        
+        # also records the actual frequencies for comparison
+        self.actual_freqs[best_match] += 1
 
     def query(self, query):
         if (query in dict.keys(self.est_freqs)):
@@ -36,8 +40,11 @@ class MisraGries(FrequencyEstimationAlgorithm):
         else:
             return 'Too infrequent to provide estimate'
 
-    def get_all_data(self):
+    def get_est_freqs(self):
         return self.est_freqs
+
+    def get_actual_freqs(self):
+        return self.actual_freqs
 
     # this method will return either itself or a word sufficiently 'close' to it from the list
     def found_in(self, token, list):
