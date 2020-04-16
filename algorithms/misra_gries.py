@@ -1,21 +1,32 @@
 import copy
+import json
+import difflib
 import Levenshtein
 from algorithms.frequency_estimation_algorithm import FrequencyEstimationAlgorithm
 
 class MisraGries(FrequencyEstimationAlgorithm):
-    def __init__(self, k):
+    def __init__(self):
         super().__init__()
+
+    def initialize(self, k, scoring_method):
+        self.est_freqs = {}
+        self.actual_freqs = {}
+        self.stream_length = 0
         self.k = k
 
-    def initialize(self):
-        pass
+        # determining scoring method: https://stackoverflow.com/questions/6690739/high-performance-fuzzy-string-comparison-in-python-use-levenshtein-or-difflib
+        self.scorer = None
+        if (scoring_method is 'levenshtein'):
+            self.scorer = Levenshtein.ratio
+        elif (scoring_method is 'sequence_match'):
+            self.scorer = lambda t, e: difflib.SequenceMatcher(None, t, e).ratio()
 
     def process(self, token):
         print(token)
         self.stream_length += 1
 
         # if we are already logging this token
-        best_match = self.found_in(token, dict.keys(self.est_freqs))
+        best_match = self.found_in(token, dict.keys(self.est_freqs), self.scorer)
         if (best_match is not ''):
             self.est_freqs[best_match] += 1
             
@@ -42,24 +53,25 @@ class MisraGries(FrequencyEstimationAlgorithm):
             return 'Too infrequent to provide estimate'
 
     def get_est_freqs(self):
+        with open ('est_freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
+            json.dump(self.est_freqs, f)
         return self.est_freqs
 
     def get_actual_freqs(self):
+        with open ('actual_freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
+            json.dump(self.actual_freqs, f)
         return self.actual_freqs
 
     # this method will return either itself or a word sufficiently 'close' to it from the list
-    def found_in(self, token, list):
+    def found_in(self, token, list, scorer):
         if (len(list) is 0): return ''
         else:
             distances = []
             for element in list:
-                distances.append({'element': element, 'distance': Levenshtein.distance(token, element)})
-            distances.sort(key=self.levenshtein_list_sorter)
-            if (distances[0]['distance'] < 1):
-                # print('Substituting the word "' + token + '" for "' + distances[0]['element'] + '"')
+                # print({'token': token, 'element': element, 'distance': scorer(token, element)})
+                distances.append({'element': element, 'distance': scorer(token, element)})
+            distances.sort(key=lambda e: e['distance'])
+            if (distances[0]['distance'] > 0.8):
+                print('Substituting the word "' + token + '" for "' + distances[0]['element'] + '"')
                 return distances[0]['element']
             else: return ''
-
-    # sort helper for the list of Levenshtein distances
-    def levenshtein_list_sorter(self, e):
-        return e['distance']
