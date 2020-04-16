@@ -4,6 +4,16 @@ import tweepy
 import json
 import re
 
+def clean_twitter_text(text):
+    exclude_words = ['rt', ' ']
+    extracted_words = []
+    text = re.sub(r'[ ]{3}', '', text)
+    text = re.sub(r'((http:\/\/|https:\/\/)([\S]+))', '', text).replace('\n', ' ')
+    for word in re.findall(r"(?=\S*['-])?([a-zA-Z'-]+)", text):
+        if (word not in exclude_words and re.match(r'[^0-9]+', word)):
+            extracted_words.append(word.lower())
+    return extracted_words
+
 class Stream(tweepy.StreamListener):
     def __init__(self, limit, algorithm):
         dotenv.load_dotenv()
@@ -37,12 +47,8 @@ class Stream(tweepy.StreamListener):
                     for hashtag in (tweet['entities']['hashtags']):
                         self.algorithm.process(hashtag['text'].lower())
                 elif (self.mode is 'text'):
-                    raw_text = re.sub(r'[ ]{3}', '', tweet['text'])
-                    raw_text = re.sub(r'^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$', '', raw_text).replace('\n', ' ')
-                    if ('http' in raw_text): print(tweet['text'])
-                    for word in re.findall(r"(?=\S*['-])?([a-zA-Z'-]+)", raw_text):
-                        if (word is not ' ' and re.match(r'[^0-9]+', word)):
-                            self.algorithm.process(word.lower())
+                    for word in clean_twitter_text(tweet['text']):
+                        self.algorithm.process(word)
                 elif (self.mode is 'location'):
                     if (tweet['place']):
                         self.algorithm.process(tweet['place']['name'])
