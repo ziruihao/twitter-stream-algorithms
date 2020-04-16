@@ -37,9 +37,11 @@ class Stream(tweepy.StreamListener):
                     for hashtag in (tweet['entities']['hashtags']):
                         self.algorithm.process(hashtag['text'].lower())
                 elif (self.mode is 'text'):
-                    raw_text = tweet['text'].replace('\n', ' ')
-                    for word in re.findall('\w+', raw_text):
-                        if (word is not ' ' and re.match('[^0-9]+', word)):
+                    raw_text = re.sub(r'[ ]{3}', '', tweet['text'])
+                    raw_text = re.sub(r'^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$', '', raw_text).replace('\n', ' ')
+                    if ('http' in raw_text): print(tweet['text'])
+                    for word in re.findall(r"(?=\S*['-])?([a-zA-Z'-]+)", raw_text):
+                        if (word is not ' ' and re.match(r'[^0-9]+', word)):
                             self.algorithm.process(word.lower())
                 elif (self.mode is 'location'):
                     if (tweet['place']):
