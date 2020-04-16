@@ -39,7 +39,7 @@ class MisraGries(FrequencyEstimationAlgorithm):
     def get_all_data(self):
         return self.est_freqs
 
-    # this method will return {True} if there is a word sufficiently 'close' to something in the list
+    # this method will return either itself or a word sufficiently 'close' to it from the list
     def found_in(self, token, list):
         if (len(list) is 0): return ''
         else:
@@ -48,6 +48,7 @@ class MisraGries(FrequencyEstimationAlgorithm):
                 distances.append({'element': element, 'distance': Levenshtein.distance(token, element)})
             distances.sort(key=self.levenshtein_list_sorter)
             if (distances[0]['distance'] < 1):
+                # print('Substituting the word "' + token + '" for "' + distances[0]['element'] + '"')
                 return distances[0]['element']
             else: return ''
 
