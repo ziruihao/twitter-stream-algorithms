@@ -26,40 +26,42 @@ class MisraGries(FrequencyEstimationAlgorithm):
         self.stream_length += 1
 
         # if we are already logging this token
-        best_match = self.found_in(token, dict.keys(self.est_freqs), self.scorer)
+        best_match = self.found_in(token, self.est_freqs.keys(), self.scorer)
         if (best_match is not ''):
             self.est_freqs[best_match] += 1
             
         else:
             # if there is still space to log this token
-            if (len(dict.keys(self.est_freqs)) < self.k):
+            if (len(self.est_freqs.keys()) < self.k):
                 self.est_freqs[token] = 1
             else:
                 # decrement all est_freqs
-                copy_of_keys = copy.copy(list(dict.keys(self.est_freqs)))
+                copy_of_keys = copy.copy(list(self.est_freqs.keys()))
                 for key in copy_of_keys:
                     self.est_freqs[key] += -1
                     if (self.est_freqs[key] is 0):
                         self.est_freqs.pop(key)
         
         # also records the actual frequencies for comparison
-        if (token in dict.keys(self.actual_freqs)): self.actual_freqs[token] += 1
+        if (token in self.actual_freqs.keys()): self.actual_freqs[token] += 1
         else: self.actual_freqs[token] = 1
 
     def query(self, query):
-        if (query in dict.keys(self.est_freqs)):
+        if (query in self.est_freqs.keys()):
             return self.est_freqs[query]
         else:
             return 'Too infrequent to provide estimate'
 
     def get_est_freqs(self):
-        with open ('est_freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
+        with open ('data/est_freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
             json.dump(self.est_freqs, f)
         return self.est_freqs
 
     def get_actual_freqs(self):
-        with open ('actual_freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
-            json.dump(self.actual_freqs, f)
+        with open ('data/actual_freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
+            pairs = list(self.actual_freqs.items())
+            pairs.sort(key=lambda e: e[1], reverse=True)
+            json.dump(pairs, f)
         return self.actual_freqs
 
     # this method will return either itself or a word sufficiently 'close' to it from the list
