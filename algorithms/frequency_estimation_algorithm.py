@@ -3,12 +3,12 @@ import abc
 class FrequencyEstimationAlgorithm(abc.ABC):
     def __init__(self):
         super().__init__()
-        self.est_freqs = {}
-        self.actual_freqs = {}
-        self.stream_length = 0
     
     @abc.abstractmethod
     def initialize(self):
+        self.est_freqs = {}
+        self.actual_freqs = {}
+        self.stream_length = 0
         pass
 
     @abc.abstractmethod
