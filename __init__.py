@@ -6,11 +6,11 @@ import re
 # print(Levenshtein.distance('covid', 'COVID'))
 
 algo = MisraGries(10)
-s = Stream(10, algo)
+s = Stream(5000, algo)
 s.set_mode('text')
 s.set_filter(['college'])
 
-a = list(dict.items(algo.get_actual_freqs())).sort(key=lambda e: e[1])
-print(a)
+# a = list(dict.items(algo.get_actual_freqs())).sort(key=lambda e: e[1])
+# print(a)
 print('estimate')
 print(algo.get_est_freqs())
