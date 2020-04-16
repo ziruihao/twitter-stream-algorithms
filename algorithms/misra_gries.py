@@ -32,7 +32,8 @@ class MisraGries(FrequencyEstimationAlgorithm):
                         self.est_freqs.pop(key)
         
         # also records the actual frequencies for comparison
-        self.actual_freqs[best_match] += 1
+        if (token in dict.keys(self.actual_freqs)): self.actual_freqs[token] += 1
+        else: self.actual_freqs[token] = 1
 
     def query(self, query):
         if (query in dict.keys(self.est_freqs)):
