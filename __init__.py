@@ -6,7 +6,7 @@ import re
 algo = MisraGries()
 algo.initialize(10, 'sequence_match')
 
-s = Stream(5, algo)
+s = Stream(10000, algo)
 s.set_mode('text')
 s.set_filter(['college'])
 print('done')
