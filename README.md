@@ -1,6 +1,6 @@
 # Twitter Stream Algorithms Demo
 
-After learning a few stream algorithms from COSC 30 (@ Dartmouth College taught by Prof. Chakrabarti), I wanted to implement some and see them performing with real data.
+After learning a few stream algorithms from COSC 35 (@ Dartmouth College taught by Prof. Chakrabarti), I wanted to implement some and see them performing with real data.
 
 The first question was what kind of stream data can a college student get access to? The easiest one was from a platform that is very much just streams of data - Twitter.
 
