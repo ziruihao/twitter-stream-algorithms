@@ -3,14 +3,13 @@ from algorithms.misra_gries import MisraGries
 import Levenshtein
 import re
 
-# print(Levenshtein.distance('covid', 'COVID'))
+algo = MisraGries()
+algo.initialize(10, 'sequence_match')
 
-algo = MisraGries(10)
-s = Stream(5000, algo)
+s = Stream(5, algo)
 s.set_mode('text')
 s.set_filter(['college'])
+print('done')
 
-# a = list(dict.items(algo.get_actual_freqs())).sort(key=lambda e: e[1])
-# print(a)
-print('estimate')
-print(algo.get_est_freqs())
+algo.get_est_freqs()
+algo.get_actual_freqs()
