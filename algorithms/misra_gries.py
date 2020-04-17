@@ -1,6 +1,6 @@
 import copy
 import json
-import difflib
+from difflib import SequenceMatcher
 import Levenshtein
 from algorithms.frequency_estimation_algorithm import FrequencyEstimationAlgorithm
 
@@ -14,7 +14,7 @@ class MisraGries(FrequencyEstimationAlgorithm):
         if (scoring_method is 'levenshtein'):
             self.scorer = Levenshtein.ratio
         elif (scoring_method is 'sequence_match'):
-            self.scorer = lambda t, e: difflib.SequenceMatcher(None, t, e).ratio()
+            self.scorer = lambda t, e: SequenceMatcher(None, t, e).ratio()
 
 
     def process(self, token):
