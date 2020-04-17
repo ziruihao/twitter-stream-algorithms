@@ -2,9 +2,9 @@ import copy
 import json
 from difflib import SequenceMatcher
 import Levenshtein
-from algorithms.frequency_estimation_algorithm import FrequencyEstimationAlgorithm
+from algorithms.abstract_algorithm import AbstractAlgorithm
 
-class MisraGries(FrequencyEstimationAlgorithm):
+class MisraGries(AbstractAlgorithm):
     def __init__(self, k, scoring_method):
         super().__init__()
         self.k = k
@@ -19,7 +19,6 @@ class MisraGries(FrequencyEstimationAlgorithm):
 
     def process(self, token):
         print(token)
-        self.stream_length += 1
 
         # if we are already logging this token
         best_match = self.found_in(token, self.freqs.keys(), self.scorer)
@@ -44,9 +43,10 @@ class MisraGries(FrequencyEstimationAlgorithm):
         else:
             return 'Too infrequent to provide estimate'
 
-    def query_all(self):
-        with open ('data/freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
-            json.dump(self.freqs, f)
+    def query_all(self, id):
+        print('Exporting Misra-Gries to ' + id)
+        with open ('data/misra-' + id + '.json', 'w') as f:
+            json.dump({'freqs': self.freqs}, f)
         return self.freqs
 
     # this method will return either itself or a word sufficiently 'close' to it from the list
