@@ -8,7 +8,7 @@ class MorrisCounter(AbstractAlgorithm):
         super().__init__()
     
     def process(self, token):
-        if (randint(1, pow(2, self.count)) is 0):
+        if (randint(1, pow(2, self.count)) is 1):
             self.count += 1
 
     def query(self, token):
