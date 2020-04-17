@@ -1,6 +1,5 @@
 import copy
 import json
-import difflib
 from algorithms.frequency_estimation_algorithm import FrequencyEstimationAlgorithm
 
 class Exact(FrequencyEstimationAlgorithm):
