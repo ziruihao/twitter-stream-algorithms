@@ -1,10 +1,10 @@
 import abc
 
-class FrequencyEstimationAlgorithm(abc.ABC):
+class AbstractAlgorithm(abc.ABC):
     def __init__(self):
         super().__init__()
         self.freqs = {}
-        self.stream_length = 0
+        self.count = 0
 
     @abc.abstractmethod
     def process(self, token):
@@ -15,6 +15,6 @@ class FrequencyEstimationAlgorithm(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def query_all(self):
+    def query_all(self, id):
         pass
 
