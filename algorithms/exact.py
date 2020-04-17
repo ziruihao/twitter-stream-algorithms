@@ -1,18 +1,22 @@
-import copy
 import json
-from algorithms.frequency_estimation_algorithm import FrequencyEstimationAlgorithm
+from algorithms.abstract_algorithm import AbstractAlgorithm
 
-class Exact(FrequencyEstimationAlgorithm):
+class Exact(AbstractAlgorithm):
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
     def process(self, token):
+        self.count += 1
         if (token in self.freqs.keys()): self.freqs[token] += 1
         else: self.freqs[token] = 1
 
-    def query_all(self):
-        with open ('data/actual_freqs-' + str(hash(self)) + '.json', 'w', encoding='utf-8') as f:
-        pairs = list(self.actual_freqs.items())
-        pairs.sort(key=lambda e: e[1], reverse=True)
-        json.dump(pairs, f)
-    return self.actual_freqs
+    def query(self, token):
+        pass
+
+    def query_all(self, id):
+        print('Exporting exact data to ' + id)
+        with open ('data/exact-' + id + '.json', 'w', encoding='utf-8') as f:
+            pairs = list(self.freqs.items())
+            pairs.sort(key=lambda e: e[1], reverse=True)
+            json.dump({'length': self.count, 'freqs': pairs}, f)
+        return self.freqs
