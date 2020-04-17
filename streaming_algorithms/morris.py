@@ -1,9 +1,9 @@
 import json
 from random import randint
 from math import pow 
-from algorithms.abstract_algorithm import AbstractAlgorithm
+from streaming_algorithms.abstract_algorithm import AbstractStreamingAlgorithm
 
-class MorrisCounter(AbstractAlgorithm):
+class MorrisCounter(AbstractStreamingAlgorithm):
     def __init__(self):
         super().__init__()
     

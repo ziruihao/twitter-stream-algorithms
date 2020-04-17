@@ -1,7 +1,7 @@
 import json
-from algorithms.abstract_algorithm import AbstractAlgorithm
+from streaming_algorithms.abstract_algorithm import AbstractStreamingAlgorithm
 
-class Exact(AbstractAlgorithm):
+class Exact(AbstractStreamingAlgorithm):
     def __init__(self):
         super().__init__()
 

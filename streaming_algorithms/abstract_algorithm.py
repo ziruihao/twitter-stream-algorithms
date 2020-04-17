@@ -1,6 +1,6 @@
 import abc
 
-class AbstractAlgorithm(abc.ABC):
+class AbstractStreamingAlgorithm(abc.ABC):
     def __init__(self):
         super().__init__()
         self.freqs = {}

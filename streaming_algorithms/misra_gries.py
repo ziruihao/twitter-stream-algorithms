@@ -2,9 +2,9 @@ import copy
 import json
 from difflib import SequenceMatcher
 import Levenshtein
-from algorithms.abstract_algorithm import AbstractAlgorithm
+from streaming_algorithms.abstract_algorithm import AbstractStreamingAlgorithm
 
-class MisraGries(AbstractAlgorithm):
+class MisraGries(AbstractStreamingAlgorithm):
     def __init__(self, k, scoring_method):
         super().__init__()
         self.k = k
