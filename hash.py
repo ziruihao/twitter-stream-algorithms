@@ -23,7 +23,7 @@ class Two_Universal_Hash:
             x = randint(1, self.elements)
             y = randint(1, self.elements)
             mappings[h(x)][h(y)] += 1
-
+        
         avg_cv = 0.0
 
         # for a fixed h(x), what is the coefficient of variation for the frequencies that some h(y) are picked in tandem?
@@ -32,3 +32,6 @@ class Two_Universal_Hash:
         
         print('The coefficient of variation is ' + str(int((avg_cv / self.bins) * 100)) + '%')
 
+if __name__ == '__main__':
+    H = Two_Universal_Hash(2, 100)
+    H.verify_2_universality(10000)
