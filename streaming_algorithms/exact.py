@@ -4,11 +4,14 @@ from streaming_algorithms.abstract_algorithm import AbstractStreamingAlgorithm
 class Exact(AbstractStreamingAlgorithm):
     def __init__(self):
         super().__init__()
+        self.distinct_elements = 0
 
     def process(self, token):
         self.count += 1
         if (token in self.freqs.keys()): self.freqs[token] += 1
-        else: self.freqs[token] = 1
+        else:
+            self.freqs[token] = 1
+            self.distinct_elements += 1
 
     def query(self, token):
         pass
@@ -18,5 +21,5 @@ class Exact(AbstractStreamingAlgorithm):
         with open ('data/exact-' + id + '.json', 'w', encoding='utf-8') as f:
             pairs = list(self.freqs.items())
             pairs.sort(key=lambda e: e[1], reverse=True)
-            json.dump({'length': self.count, 'freqs': pairs}, f)
+            json.dump({'length': self.count, 'distinct_elements': self.distinct_elements, 'freqs': pairs}, f)
         return self.freqs
