@@ -34,14 +34,17 @@ class Stream(tweepy.StreamListener):
                 self.counter += 1
                 if (self.mode is 'hashtag'):
                     for hashtag in (tweet['entities']['hashtags']):
+                        print(hashtag['text'].lower())
                         for algorithm in self.algorithms:
                             algorithm.process(hashtag['text'].lower())
                 elif (self.mode is 'text'):
                     for word in self.clean_twitter_text(tweet['text']):
+                        print(word)
                         for algorithm in self.algorithms:
                             algorithm.process(word)
                 elif (self.mode is 'location'):
                     if (tweet['place']):
+                        print(tweet['place']['name'])
                         for algorithm in self.algorithms:
                             algorithm.process(tweet['place']['name'])
             return True
@@ -54,7 +57,7 @@ class Stream(tweepy.StreamListener):
         extracted_words = []
         text = re.sub(r'[ ]{3}', '', text)
         text = re.sub(r'((http:\/\/|https:\/\/)([\S]+))', '', text).replace('\n', ' ')
-        for word in re.findall(r"(?=\S*['-])?([a-zA-Z'-]+)", text):
-            if (word not in exclude_words and re.match(r'[^0-9]+', word)):
-                extracted_words.append(word.lower())
+        for word in re.findall(r"([a-zA-Z'-]+)", text):
+            if (word not in exclude_words):
+                extracted_words.append(word.replace("'", '').replace('-', '').lower())
         return extracted_words
