@@ -1,4 +1,4 @@
-from math import ceil, log2, pow
+from math import ceil, log2
 from statistics import mean, variance, stdev
 from random import randint
 from primesieve import nth_prime
