@@ -18,8 +18,6 @@ class MisraGries(AbstractStreamingAlgorithm):
 
 
     def process(self, token):
-        print(token)
-
         # if we are already logging this token
         best_match = self.found_in(token, self.freqs.keys(), self.scorer)
         if (best_match is not ''):
@@ -55,7 +53,6 @@ class MisraGries(AbstractStreamingAlgorithm):
         else:
             distances = []
             for element in list:
-                # print({'token': token, 'element': element, 'distance': scorer(token, element)})
                 distances.append({'element': element, 'distance': scorer(token, element)})
             distances.sort(key=lambda e: e['distance'])
             if (distances[0]['distance'] > 0.8):

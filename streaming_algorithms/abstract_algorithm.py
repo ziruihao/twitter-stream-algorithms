@@ -1,5 +1,4 @@
 import abc
-
 class AbstractStreamingAlgorithm(abc.ABC):
     def __init__(self):
         super().__init__()
