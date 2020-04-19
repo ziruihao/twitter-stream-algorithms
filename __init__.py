@@ -41,6 +41,11 @@ while(not success):
     elif (algorithm_choice == '3'):
         k = int(input('Misra-Gries bin count (how many counts do we cache at a time (substantially smaller than limit, but > 10): '))
         algorithms.append(MisraGries(k=k, scoring_method='sequence_match'))
+    elif (algorithm_choice == '123'):
+        algorithms.append(MorrisCounter(t=500))
+        algorithms.append(BJKST(k=200, t=500))
+        algorithms.append(MisraGries(k=200, scoring_method='sequence_match'))
+
     else:
         print('Error: bad input')
         continue
