@@ -3,7 +3,7 @@ from statistics import mean, variance, stdev
 from random import randint
 from primesieve import nth_prime
 
-class Two_Universal_Hash:
+class TwoUniversalHash:
     def __init__(self, bins, elements):
         self.bins = bins
         self.elements = elements
@@ -33,5 +33,5 @@ class Two_Universal_Hash:
         print('The coefficient of variation is ' + str(int((avg_cv / self.bins) * 100)) + '%')
 
 if __name__ == '__main__':
-    H = Two_Universal_Hash(2, 100)
+    H = TwoUniversalHash(2, 100)
     H.verify_2_universality(10000)

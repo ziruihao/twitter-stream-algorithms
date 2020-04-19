@@ -5,7 +5,7 @@ from statistics import median
 from difflib import SequenceMatcher
 import Levenshtein
 from streaming_algorithms.abstract_algorithm import AbstractStreamingAlgorithm
-from hash import Two_Universal_Hash
+from hash import TwoUniversalHash
 from word_to_number import WordToNumber
 
 class CountSketch(AbstractStreamingAlgorithm):
@@ -18,9 +18,9 @@ class CountSketch(AbstractStreamingAlgorithm):
         self.word_to_number = WordToNumber()
         distinct_elements_upper_bound = self.word_to_number.set_method('sha')
 
-        self.H = Two_Universal_Hash(self.k, distinct_elements_upper_bound)
+        self.H = TwoUniversalHash(self.k, distinct_elements_upper_bound)
         self.h = [self.H.pick_hash() for _ in range(t)]
-        self.G = Two_Universal_Hash(2, distinct_elements_upper_bound)
+        self.G = TwoUniversalHash(2, distinct_elements_upper_bound)
         self.g = [self.G.pick_hash() for _ in range(t)]
 
     def process(self, token):
