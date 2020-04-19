@@ -3,7 +3,8 @@ import os
 import tweepy
 import json
 import re
-class Stream(tweepy.StreamListener):
+
+class TwitterStream(tweepy.StreamListener):
     def __init__(self, limit, algorithms):
         dotenv.load_dotenv()
         self.limit = limit
