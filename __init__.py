@@ -18,7 +18,7 @@ count_sketch = CountSketch(k=100, t=500)
 
 bjkst = BJKST(k=10, t=500)
 
-s = Stream(10, [misra, exact, morris, count_sketch, bjkst])
+s = Stream(1000, [misra, exact, morris, count_sketch, bjkst])
 s.set_mode('text')
 s.set_filter(['college'])
 
