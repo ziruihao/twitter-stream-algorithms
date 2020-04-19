@@ -36,7 +36,7 @@ class BJKST(AbstractStreamingAlgorithm):
             to_compute_medians.append(len(self.B[t]) * (2**self.count[t]))
         print('BJKST exporting to ' + id)
         with open('data/bjkst-' + id + '.json', 'w') as f:
-            json.dump({'distinct_elements': median(to_compute_medians)}, f)
+            json.dump({'distinct_elements': int(median(to_compute_medians))}, f)
 
     def zeros(self, n):
         b = bin(n)[2:]

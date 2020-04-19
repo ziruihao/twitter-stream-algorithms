@@ -36,7 +36,7 @@ class CountSketch(AbstractStreamingAlgorithm):
         to_compute_medians = []
         for t in range(self.t):
             to_compute_medians.append(abs(self.freqs[t][self.h[t](query)]))
-        return median(to_compute_medians)
+        return int(median(to_compute_medians))
 
     def query_all(self, id):
         print('CountSketch still in progress.. no export')
