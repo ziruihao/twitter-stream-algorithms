@@ -31,7 +31,7 @@ class TwitterStream(tweepy.StreamListener):
         else:
             tweet = json.loads(data)
             if (tweet['lang'] == 'en' and tweet['user']['followers_count'] > 1000):
-                if (self.mode is 'hashtags'):
+                if (self.mode == 'hashtags'):
                     hashtags = tweet['entities']['hashtags']
                     while (self.limit > 0 and len(hashtags) > 0):
                         self.limit += -1
@@ -40,7 +40,7 @@ class TwitterStream(tweepy.StreamListener):
                         print(hashtag['text'].lower())
                         for algorithm in self.algorithms:
                             algorithm.process(hashtag['text'].lower())
-                elif (self.mode is 'body_text'):
+                elif (self.mode == 'body_text'):
                     words = self.clean_twitter_text(tweet['text'])
                     while (self.limit > 0 and len(words) > 0):
                         self.limit += -1
@@ -49,19 +49,21 @@ class TwitterStream(tweepy.StreamListener):
                         print(word)
                         for algorithm in self.algorithms:
                             algorithm.process(word)
-                elif (self.mode is 'locations'):                        
+                elif (self.mode == 'locations'):                        
                     if (tweet['place'] and self.limit > 0):
                         self.limit += -1
                         print(tweet['place']['name'])
                         for algorithm in self.algorithms:
                             algorithm.process(tweet['place']['name'])
+                else:
+                    raise Exception('Bad Twitter mode')
             return True
 
     def on_error(self, status):
         print(status)
 
     def clean_twitter_text(self, text):
-        exclude_words = ['rt', ' ']
+        exclude_words = ['rt', ' ', ' ']
         extracted_words = []
         text = re.sub(r'[ ]{3}', '', text)
         text = re.sub(r'((http:\/\/|https:\/\/)([\S]+))', '', text).replace('\n', ' ')
