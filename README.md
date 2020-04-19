@@ -14,7 +14,7 @@ $ python __init__.py
 | Twitter words   | Actual                        | Estimate (algorithm output) |
 |-----------------|-------------------------------|-----------------------------|
 | Total tokens    | 20,000                        | 16,383                      |
-| Distinct tokens | 3,654                         | 12,672                      |
+| Distinct tokens | 3,195                         | 3,586                       |
 | Heavy hitters   | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  |
 
 | Shakespeare words   | Actual                        | Estimate (algorithm output) |
