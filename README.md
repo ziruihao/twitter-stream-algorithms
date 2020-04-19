@@ -4,7 +4,18 @@ After learning a few stream algorithms from COSC 35 (@ Dartmouth College taught 
 
 The first question was what kind of stream data can a college student get access to? The easiest one was from a platform that is very much just streams of data - Twitter.
 
+```
+$ pip install -r requirements.txt
+$ python __init__.py
+```
+
 ### Results
+
+| Twitter words   | Actual                        | Estimate (algorithm output) |
+|-----------------|-------------------------------|-----------------------------|
+| Total tokens    | 20,000                        |                             |
+| Distinct tokens |                               |                             |
+| Heavy hitters   | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  |
 
 ## Streaming
 
@@ -12,7 +23,7 @@ The first question was what kind of stream data can a college student get access
 
 I implement the following stream algorithms:
 
-1. Misra-Gries - token frequencies
+1. Misra-Gries - token frequencies to generate heavy hitters
    1. `k: number of bins`, `scoring_method: either Levenshtein or SequenceMatcher for word similarity`
 2. Moris - total tokens counter
    1. `t: number of parallel estimators to then take the medians of`
