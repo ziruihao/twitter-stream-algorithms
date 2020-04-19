@@ -6,29 +6,65 @@ from streaming_algorithms import MorrisCounter
 from streaming_algorithms import CountSketch
 from streaming_algorithms import BJKST
 import time
+import sys
+import os
 
-stamp = str(int(time.time()) % 10000)
+success = False
 
-algorithms = []
+while(not success):
+    # try:
+    stamp = str(int(time.time()) % 10000)
 
-algorithms.append(Exact())
-algorithms.append(MisraGries(k=25, scoring_method='sequence_match'))
-algorithms.append(MorrisCounter(t=500))
-algorithms.append(CountSketch(k=100, t=500))
-algorithms.append(BJKST(k=10, t=500))
+    source = input('Data source: Twitter or Shakespeare? [twitter / shakespeare]: ')
 
-# twitter_stream = TwitterStream(1000, algorithms)
-# twitter_stream.set_mode('text')
-# twitter_stream.set_filter(['college'])
+    twitter_mode = ''
 
-shakespeare_stream = ShakespeareStream(algorithms)
-shakespeare_stream.stream('shakespeare', 6)
+    if (source == 'twitter'):
+        twitter_mode = input('Twitter data type [hashtags / body_text / locations]: ')
+    elif (source != 'shakespeare'):
+        print('Error: bad input')
+        continue
 
-for algorithm in algorithms:
-    algorithm.query_all(stamp)
+    algorithm_choice = input('Algorithm choice:\n\t[1] Moris - total tokens\n\t[2] BJKST - total distinct tokens\n\t[3] Misra-Gries - token frequencies\n\tCountSketch - token frequencies (under construction)\nSelection:')
 
-# misra.query_all(stamp)
-# morris.query_all(stamp)
-# exact.query_all(stamp)
-# count_sketch.query_all(stamp)
-# bjkst.query_all(stamp)
+    limit = int(input('Stream token limit (when do we stop, [int]): ')
+)
+    algorithms = [Exact()]
+
+    if (algorithm_choice == '1'):
+        t = int(input('Number of parallel Moris estimators for median computation [int > 0]: '))
+        algorithms.append(MorrisCounter(t=t))
+    elif (algorithm_choice == '2'):
+        k = int(input('BJKST bin size (how many tokens do we cache at a time (substantially smaller than limit, but > 10): '))
+        t = int(input('Number of parallel BJKST estimators for median computation [int > 0]: '))
+        algorithms.append(BJKST(k=k, t=t))
+    elif (algorithm_choice == '3'):
+        k = int(input('Misra-Gries bin count (how many counts do we cache at a time (substantially smaller than limit, but > 10): '))
+        algorithms.append(MisraGries(k=k, scoring_method='sequence_match'))
+    else:
+        print('Error: bad input')
+        continue
+
+    # algorithms.append(CountSketch(k=100, t=500))
+
+    input('< Press Enter to being streaming >')
+
+    stream = {}
+
+    if (source == 'twitter'):
+        stream = TwitterStream(limit=limit, algorithms=algorithms)
+        stream.set_mode(twitter_mode)
+        stream.set_filter(['usa'])
+    elif (source == 'shakespeare'):
+        stream = ShakespeareStream(limit=limit, algorithms=algorithms)
+        stream.stream('shakespeare')
+
+    print('\nFinished!\n')
+
+    for algorithm in algorithms:
+        algorithm.query_all(stamp)
+
+    success = True
+    
+    # except:
+    #     continue
