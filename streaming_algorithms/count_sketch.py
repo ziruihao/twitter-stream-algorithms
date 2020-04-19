@@ -39,8 +39,10 @@ class CountSketch(AbstractStreamingAlgorithm):
         return median(to_compute_medians)
 
     def query_all(self, id):
-        self.freqs = list(map(lambda l: list(map(abs, l)), self.freqs))
-        print('Exporting CountSketch to ' + id)
-        with open ('data/countsketch-' + id + '.json', 'w') as f:
-            json.dump({'freqs': self.freqs}, f)
-        return self.freqs
+        print('CountSketch still in progress.. no export')
+        # to-do
+        # self.freqs = list(map(lambda l: list(map(abs, l)), self.freqs))
+        # print('Exporting CountSketch to ' + id)
+        # with open ('data/countsketch-' + id + '.json', 'w') as f:
+        #     json.dump({'freqs': self.freqs}, f)
+        # return self.freqs
