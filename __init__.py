@@ -43,8 +43,8 @@ while(not success):
         algorithms.append(MisraGries(k=k, scoring_method='sequence_match'))
     elif (algorithm_choice == '123'):
         algorithms.append(MorrisCounter(t=500))
-        algorithms.append(BJKST(k=200, t=500))
-        algorithms.append(MisraGries(k=200, scoring_method='sequence_match'))
+        algorithms.append(BJKST(k=10, t=500))
+        algorithms.append(MisraGries(k=10, scoring_method='sequence_match'))
 
     else:
         print('Error: bad input')
