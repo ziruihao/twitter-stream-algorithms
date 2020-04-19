@@ -13,9 +13,15 @@ $ python __init__.py
 
 | Twitter words   | Actual                        | Estimate (algorithm output) |
 |-----------------|-------------------------------|-----------------------------|
-| Total tokens    | 20,000                        |                             |
-| Distinct tokens |                               |                             |
+| Total tokens    | 20,000                        | 16,383                      |
+| Distinct tokens | 3,654                         | 12,672                      |
 | Heavy hitters   | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  |
+
+| Shakespeare words   | Actual                        | Estimate (algorithm output) |
+|---------------------|-------------------------------|-----------------------------|
+| Total tokens        | 20,000                        | 16,383                      |
+| Distinct tokens     | 3,615                         | 11,456                      |
+| Heavy hitters       | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  |
 
 ## Streaming
 
@@ -66,10 +72,14 @@ The streamer for Shakespeare handles the cleaning and extraction of words from a
 
 The cleaning process involves removing all whitespace, punctuation, character names, stage instructions, and other miscallenious symbols.
 
-### Word Matching
-
-After running the stream for a lot of tweets, I realized there's a lot of close matches between words, such as `COVID-19` versus `covid`. If applicable, each algorithm will first check for any close word matches on the arrival of a new token.
-
 ### Algorithms
 
 All algorithms implement the `AbstractStreamingAlgorithm` template for which the methods `process(token j)`, `query(token j)`, and `query_all()` are defined.
+
+### 2-Universal Hashing
+
+I generate 2-universal hash families using the `TwoUniversalHash` class. The family is generated for a given domain and range. Hash functions are of the form `((ax + b) % p) % k` where `p` is the first prime after the size of the domain and `k` is the size of the range.
+
+### Word Matching
+
+After running the stream for a lot of tweets, I realized there's a lot of close matches between words, such as `COVID-19` versus `covid`. If applicable, each algorithm will first check for any close word matches on the arrival of a new token.
