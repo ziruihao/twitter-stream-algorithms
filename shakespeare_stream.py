@@ -10,11 +10,12 @@ class ShakespeareStream():
                 text = f.read()
                 words = text.split(' ')
                 while (self.limit > 0 and len(words) > 0):
-                    self.limit += -1
                     word = words.pop(0)
-                    print(word.replace("'", '').lower())
-                    for algorithm in self.algorithms:
-                        algorithm.process(word.replace("'", '').lower())
+                    if (word not in ['rt', ' ', ' ']):
+                        self.limit += -1
+                        print(word.replace("'", '').lower())
+                        for algorithm in self.algorithms:
+                            algorithm.process(word.replace("'", '').lower())
             work += 1
 
     def extract(self, path):
