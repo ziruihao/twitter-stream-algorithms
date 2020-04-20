@@ -1,5 +1,5 @@
-from twitter_stream import TwitterStream
-from shakespeare_stream import ShakespeareStream
+from stream_handlers import TwitterStream
+from stream_handlers import ShakespeareStream
 from streaming_algorithms import MisraGries
 from streaming_algorithms import Exact
 from streaming_algorithms import MorrisCounter
