@@ -4,6 +4,8 @@ After learning a few stream algorithms from COSC 35 (@ Dartmouth College taught 
 
 The first question was what kind of stream data can a college student get access to? The easiest one was from a platform that is very much just streams of data - Twitter.
 
+![twitter hashtags streams](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
 ```
 $ pip install -r requirements.txt
 $ python __init__.py
