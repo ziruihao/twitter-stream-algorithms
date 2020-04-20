@@ -19,15 +19,17 @@ $ python __init__.py
 |-----------------|-------------------------------|-----------------------------|
 | Total tokens    | 20,000                        | 16,383                      |
 | Distinct tokens | 3,195                         | 3,586                       |
-<!-- | Heavy hitters   | See `data/exact-twitter.json` | See `data/misra-twitter.json`  | -->
+| Heavy hitters*   | See `data/exact-twitter.json` | See `data/misra-twitter.json`  |
 
 | Shakespeare words   | Actual                        | Estimate (algorithm output) |
 |---------------------|-------------------------------|-----------------------------|
 | Total tokens        | 20,000                        | 16,383                      |
 | Distinct tokens     | 3,615                         | 4,096                       |
-<!-- | Heavy hitters       | See `data/exact-shakespeare.json` | See `data/misra-shakespeare.json`  | -->
+| Heavy hitters*       | See `data/exact-shakespeare.json` | See `data/misra-shakespeare.json`  |
 
 These estimates have too high of a variance and they land on the same number. I will implement some new methods we just learned in class to reduce this variance and make the space of possible estimates more dense.
+
+* The heavy hitters approximation is not complete yet.
 
 ## Streaming
 
@@ -35,13 +37,13 @@ These estimates have too high of a variance and they land on the same number. I 
 
 I implement the following stream algorithms:
 
-1. Misra-Gries - token frequencies to generate heavy hitters
+1. **Misra-Gries** - token frequencies to generate heavy hitters
    1. `k: number of bins`, `scoring_method: either Levenshtein or SequenceMatcher for word similarity`
-2. Moris - total tokens counter
+2. **Moris** - total tokens counter
    1. `t: number of parallel estimators to then take the medians of`
-3. BJKST - distinct tokens counter
+3. **BJKST** - distinct tokens counter
    1. `k: number of bins`, `t: number of parallel estimators to then take the medians of`
-4. CountSketch - token frequencies (work in progress)
+4. **CountSketch** - token frequencies (work in progress)
    1. `k: number of bins`, `t: number of parallel estimators to then take the medians of`
 5. Exact - not an algorithm, rather it just counts the exact number of tokens, distinct tokens, and frequencies for each token to provide a baseline of comparison for the other algorithms
 
