@@ -27,11 +27,11 @@ class AbstractStreamingAlgorithm(abc.ABC):
 
 ## Word to Number
 
-Words are hashed to a 16-bit integer using Python's classic `hash` functionality. I tried implementing other hasing techniques, found in [`word_to_number.py`](../blob/master/word_to_number.py), but found this to be the fasted and most space-efficient while preserving as much uniqueness as possible.
+Words are hashed to a 16-bit integer using Python's classic `hash` functionality. I tried implementing other hasing techniques, found in [`word_to_number.py`](../word_to_number.py), but found this to be the fasted and most space-efficient while preserving as much uniqueness as possible.
 
 ## 2-Universal Hashing
 
-I generate 2-universal hash families using the [`TwoUniversalHash`](../blob/master/two_universal_hash.py) class. The family is generated for a given domain and range. Hash functions are of the form `((ax + b) % p) % k` where `p` is the first prime after the size of the domain and `k` is the size of the range.
+I generate 2-universal hash families using the [`TwoUniversalHash`](../two_universal_hash.py) class. The family is generated for a given domain and range. Hash functions are of the form `((ax + b) % p) % k` where `p` is the first prime after the size of the domain and `k` is the size of the range.
 
 The class has a `verify_2_universality` method to test the coefficient of variation for hashed pairs.
 
