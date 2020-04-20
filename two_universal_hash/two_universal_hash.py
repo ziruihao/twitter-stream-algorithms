@@ -31,8 +31,8 @@ class TwoUniversalHash:
         for i in range(self.bins):
             avg_cv += stdev(mappings[i]) / mean(mappings[i])
         
-        print('The coefficient of variation is ' + str(int((avg_cv / self.bins) * 100)) + '%')
+        print('The coefficient of variation is ' + str(((avg_cv / self.bins) * 100)) + '%')
 
 if __name__ == '__main__':
-    H = TwoUniversalHash(2, 100)
-    H.verify_2_universality(10000)
+    H = TwoUniversalHash(5, 1000)
+    H.verify_2_universality(1000000)
