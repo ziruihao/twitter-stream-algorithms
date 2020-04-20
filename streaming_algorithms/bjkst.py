@@ -1,7 +1,7 @@
 import json
 from statistics import median
 from streaming_algorithms.abstract_algorithm import AbstractStreamingAlgorithm
-from hash import TwoUniversalHash
+from two_universal_hash import TwoUniversalHash
 from word_to_number import WordToNumber
 
 class BJKST(AbstractStreamingAlgorithm):

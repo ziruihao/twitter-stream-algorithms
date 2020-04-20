@@ -5,7 +5,7 @@ from statistics import median
 from difflib import SequenceMatcher
 import Levenshtein
 from streaming_algorithms.abstract_algorithm import AbstractStreamingAlgorithm
-from hash import TwoUniversalHash
+from two_universal_hash import TwoUniversalHash
 from word_to_number import WordToNumber
 
 class CountSketch(AbstractStreamingAlgorithm):
