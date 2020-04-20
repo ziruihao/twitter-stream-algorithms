@@ -8,6 +8,8 @@ The first question was what kind of stream data can a college student get access
 
 ### Get Started
 
+Create a `.env` in root directory and paste the variables from [here](https://drive.google.com/file/d/1o04angBUMD4ATCupEaIACHP0IHjXxaRw/view?usp=sharing).
+
 ```
 $ pip install -r requirements.txt
 $ python __init__.py
