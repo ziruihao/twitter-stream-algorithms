@@ -34,7 +34,6 @@ class BJKST(AbstractStreamingAlgorithm):
         to_compute_medians = []
         for t in range(self.t):
             to_compute_medians.append(len(self.B[t]) * (2**self.count[t]))
-        print(to_compute_medians)
         print('BJKST exporting to ' + id)
         with open('data/bjkst-' + id + '.json', 'w') as f:
             json.dump({'distinct_elements': int(median(to_compute_medians))}, f)
