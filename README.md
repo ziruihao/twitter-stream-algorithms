@@ -25,11 +25,11 @@ $ python __init__.py
 
 | Shakespeare words   | Actual                        | Estimate (algorithm output) |
 |---------------------|-------------------------------|-----------------------------|
-| Total tokens        | 20,000                        | 16,383                      |
-| Distinct tokens     | 3,615                         | 4,096                       |
+| Total tokens        | 50,000                        | 32,767                      |
+| Distinct tokens     | 7,589                         | 8,192                       |
 | Heavy hitters*       | See `data/exact-shakespeare.json` | See `data/misra-shakespeare.json`  |
 
-These estimates have too high of a variance and they land on the same number. I will implement some new methods we just learned in class to reduce this variance and make the space of possible estimates more dense.
+These estimates have too high of a variance and they land on the same number some times. I will implement some new methods we just learned in class to reduce this variance and make the space of possible estimates more dense.
 
 * The heavy hitters approximation is not complete yet.
 
