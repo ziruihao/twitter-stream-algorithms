@@ -20,9 +20,7 @@ class MorrisCounter(AbstractStreamingAlgorithm):
     def query_all(self, id):
         to_compute_medians = []
         for t in range(self.t):
-            print(2**self.count[t] - 1)
             to_compute_medians.append(2**self.count[t] - 1)
-        print(to_compute_medians)
         print('Moris exporting to ' + id)
         with open('data/moris-' + id + '.json', 'w') as f:
             json.dump({'length': int(median(to_compute_medians))}, f)
