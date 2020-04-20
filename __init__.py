@@ -59,7 +59,7 @@ while(not success):
     if (source == 'twitter'):
         stream = TwitterStream(limit=limit, algorithms=algorithms)
         stream.set_mode(twitter_mode)
-        stream.set_filter(['usa'])
+        stream.set_filter(['covid'])
     elif (source == 'shakespeare'):
         stream = ShakespeareStream(limit=limit, algorithms=algorithms)
         stream.stream('shakespeare')
