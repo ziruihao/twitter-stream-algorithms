@@ -9,19 +9,21 @@ $ pip install -r requirements.txt
 $ python __init__.py
 ```
 
-### Results
+## Results
 
 | Twitter words   | Actual                        | Estimate (algorithm output) |
 |-----------------|-------------------------------|-----------------------------|
 | Total tokens    | 20,000                        | 16,383                      |
 | Distinct tokens | 3,195                         | 3,586                       |
-| Heavy hitters   | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  |
+<!-- | Heavy hitters   | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  | -->
 
 | Shakespeare words   | Actual                        | Estimate (algorithm output) |
 |---------------------|-------------------------------|-----------------------------|
 | Total tokens        | 20,000                        | 16,383                      |
-| Distinct tokens     | 3,615                         | 11,456                      |
-| Heavy hitters       | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  |
+| Distinct tokens     | 3,615                         | 4,096                       |
+<!-- | Heavy hitters       | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  | -->
+
+These estimates have too high of a variance and they land on the same number. I will implement some new methods we just learned in class to reduce this variance and make the space of possible estimates more dense.
 
 ## Streaming
 
