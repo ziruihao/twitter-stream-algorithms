@@ -4,7 +4,9 @@ After learning a few stream algorithms from COSC 35 (@ Dartmouth College taught 
 
 The first question was what kind of stream data can a college student get access to? The easiest one was from a platform that is very much just streams of data - Twitter.
 
-![twitter hashtags streams](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![twitter hashtags streams](https://github.com/ziruihao/twitter-stream-algorithms/blob/master/demo.gif "Twitter hashtags streaming")
+
+### Get Started
 
 ```
 $ pip install -r requirements.txt
@@ -17,15 +19,17 @@ $ python __init__.py
 |-----------------|-------------------------------|-----------------------------|
 | Total tokens    | 20,000                        | 16,383                      |
 | Distinct tokens | 3,195                         | 3,586                       |
-<!-- | Heavy hitters   | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  | -->
+| Heavy hitters*   | See `data/exact-twitter.json` | See `data/misra-twitter.json`  |
 
 | Shakespeare words   | Actual                        | Estimate (algorithm output) |
 |---------------------|-------------------------------|-----------------------------|
 | Total tokens        | 20,000                        | 16,383                      |
 | Distinct tokens     | 3,615                         | 4,096                       |
-<!-- | Heavy hitters       | See `data/exact-[run id].json` | See `data/misra_gries-[run id].json`  | -->
+| Heavy hitters*       | See `data/exact-shakespeare.json` | See `data/misra-shakespeare.json`  |
 
 These estimates have too high of a variance and they land on the same number. I will implement some new methods we just learned in class to reduce this variance and make the space of possible estimates more dense.
+
+* The heavy hitters approximation is not complete yet.
 
 ## Streaming
 
@@ -33,14 +37,15 @@ These estimates have too high of a variance and they land on the same number. I 
 
 I implement the following stream algorithms:
 
-1. Misra-Gries - token frequencies to generate heavy hitters
+1. **Misra-Gries** - token frequencies to generate heavy hitters
    1. `k: number of bins`, `scoring_method: either Levenshtein or SequenceMatcher for word similarity`
-2. Moris - total tokens counter
+2. **Moris** - total tokens counter
    1. `t: number of parallel estimators to then take the medians of`
-3. BJKST - distinct tokens counter
+3. **BJKST** - distinct tokens counter
    1. `k: number of bins`, `t: number of parallel estimators to then take the medians of`
-4. CountSketch - token frequencies (work in progress)
+4. **CountSketch** - token frequencies (work in progress)
    1. `k: number of bins`, `t: number of parallel estimators to then take the medians of`
+5. Exact - not an algorithm, rather it just counts the exact number of tokens, distinct tokens, and frequencies for each token to provide a baseline of comparison for the other algorithms
 
 ### Data
 
@@ -48,13 +53,13 @@ A steady stream of data is fed into each of those algorithms via these two data 
 
 #### Twitter API
 
-I'm leveraging Twitter's Stream API <https://developer.twitter.com/en/docs/tweets/filter-realtime/overview> via the Python Tweepy library <http://docs.tweepy.org/en/latest/streaming_how_to.html.>
+I'm leveraging [Twitter's Stream API](https://developer.twitter.com/en/docs/tweets/filter-realtime/overview) via the Python [Tweepy library](http://docs.tweepy.org/en/latest/streaming_how_to.html).
 
 Once a stream is initiated, we receive continuous selected data from Twitter. This is not the entirety of Twitter's streams, but rather a percentage (controlled by Twitter based on allocations for free developer users).
 
 #### Shakespeare's Works
 
-A more offline comes from simulating a stream using words from 100 of Shakespeare's works. The raw text was accessed from <http://www.gutenberg.org/cache/epub/100/pg100.txt>, cleaned, and extracted into 219 separate works, each containing around a few thousand words. The stream chooses a particular work and feeds the words the same way as the Twitter streaming process.
+A more offline comes from simulating a stream using words from 100 of Shakespeare's works. The raw text was accessed from [Project Gutenberg](http://www.gutenberg.org/cache/epub/100/pg100.txt), cleaned, and extracted into 219 separate works, each containing around a few thousand words. The stream chooses a particular work and feeds the words the same way as the Twitter streaming process.
 
 ## Architecture
 
@@ -87,3 +92,9 @@ I generate 2-universal hash families using the `TwoUniversalHash` class. The fam
 ### Word Matching
 
 After running the stream for a lot of tweets, I realized there's a lot of close matches between words, such as `COVID-19` versus `covid`. If applicable, each algorithm will first check for any close word matches on the arrival of a new token.
+
+## Next Steps
+
+### Web Interface
+
+I am planning to build an iteractive web app for better interaction with the algorithms, and to visualize how these streaming algorithms manipulate data in real-time. For example, for Misra-Gries, I want to animate the **size** of incoming tokens (words) to demonstrate their predicted accumulated counts held by the algorithm.
