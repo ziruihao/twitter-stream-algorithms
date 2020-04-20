@@ -30,33 +30,34 @@ class TwitterStream(tweepy.StreamListener):
         if (self.limit <= 0): self.stream.disconnect()
         else:
             tweet = json.loads(data)
-            if (tweet['lang'] == 'en' and tweet['user']['followers_count'] > 1000):
-                if (self.mode == 'hashtags'):
-                    hashtags = tweet['entities']['hashtags']
-                    while (self.limit > 0 and len(hashtags) > 0):
-                        self.limit += -1
-                        hashtag = hashtags.pop(0)
-                    # for hashtag in (tweet['entities']['hashtags']):
-                        print(hashtag['text'].lower())
-                        for algorithm in self.algorithms:
-                            algorithm.process(hashtag['text'].lower())
-                elif (self.mode == 'body_text'):
-                    words = self.clean_twitter_text(tweet['text'])
-                    while (self.limit > 0 and len(words) > 0):
-                        self.limit += -1
-                    # for word in self.clean_twitter_text(tweet['text']):
-                        word = words.pop(0)
-                        print(word)
-                        for algorithm in self.algorithms:
-                            algorithm.process(word)
-                elif (self.mode == 'locations'):                        
-                    if (tweet['place'] and self.limit > 0):
-                        self.limit += -1
-                        print(tweet['place']['name'])
-                        for algorithm in self.algorithms:
-                            algorithm.process(tweet['place']['name'])
-                else:
-                    raise Exception('Bad Twitter mode')
+            if (tweet['id'] is not None):
+                if (tweet['lang'] == 'en' and tweet['user']['followers_count'] > 1000):
+                    if (self.mode == 'hashtags'):
+                        hashtags = tweet['entities']['hashtags']
+                        while (self.limit > 0 and len(hashtags) > 0):
+                            self.limit += -1
+                            hashtag = hashtags.pop(0)
+                            print('#' + hashtag['text'].lower())
+                            for algorithm in self.algorithms:
+                                algorithm.process('#' + hashtag['text'].lower())
+                    elif (self.mode == 'body_text'):
+                        words = self.clean_twitter_text(tweet['text'])
+                        while (self.limit > 0 and len(words) > 0):
+                            self.limit += -1
+                            word = words.pop(0)
+                            print(word)
+                            for algorithm in self.algorithms:
+                                algorithm.process(word)
+                    elif (self.mode == 'locations'):                        
+                        if (tweet['place'] and self.limit > 0):
+                            self.limit += -1
+                            print(tweet['place']['name'])
+                            for algorithm in self.algorithms:
+                                algorithm.process(tweet['place']['name'])
+                    else:
+                        raise Exception('Bad Twitter mode')
+            else:
+                print(tweet)
             return True
 
     def on_error(self, status):
