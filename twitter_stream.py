@@ -30,7 +30,7 @@ class TwitterStream(tweepy.StreamListener):
         if (self.limit <= 0): self.stream.disconnect()
         else:
             tweet = json.loads(data)
-            if (tweet['id'] is not None):
+            if ('id' in tweet):
                 if (tweet['lang'] == 'en' and tweet['user']['followers_count'] > 1000):
                     if (self.mode == 'hashtags'):
                         hashtags = tweet['entities']['hashtags']
