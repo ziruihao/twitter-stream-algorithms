@@ -63,40 +63,12 @@ Once a stream is initiated, we receive continuous selected data from Twitter. Th
 
 A more offline comes from simulating a stream using words from 100 of Shakespeare's works. The raw text was accessed from [Project Gutenberg](http://www.gutenberg.org/cache/epub/100/pg100.txt), cleaned, and extracted into 219 separate works, each containing around a few thousand words. The stream chooses a particular work and feeds the words the same way as the Twitter streaming process.
 
-## Architecture
-
-### Stream Handlers
-
-A set of `algorithms` are passed in to the two stream handlers below.
-
-#### Twitter
-
-I create a wrapper for the incoming Twitter data in `twitter_stream.py`. The `set_filter` method connects to Twitter and begins the streaming channel. We can configure the tweets coming in with `filters`, such as `#USA` or `#travel`.
-
-This class's most important method is `on_data(data)` which is invoked by `Tweepy`'s stream handler on each push of data, which is one tweet. The method parses the raw tweet data and sends individual words extracted from the tweet body to the stream algorithms as tokens.
-
-This class can also send a tweet's hashtags or location data as tokens, depending on the `mode`.
-
-#### Shakespeare
-
-The streamer for Shakespeare handles the cleaning and extraction of words from a specified corpus and feeds it into the stream algorithms as tokens.
-
-The cleaning process involves removing all whitespace, punctuation, character names, stage instructions, and other miscallenious symbols.
-
-### Algorithms
-
-All algorithms implement the `AbstractStreamingAlgorithm` template for which the methods `process(token j)`, `query(token j)`, and `query_all()` are defined.
-
-### 2-Universal Hashing
-
-I generate 2-universal hash families using the `TwoUniversalHash` class. The family is generated for a given domain and range. Hash functions are of the form `((ax + b) % p) % k` where `p` is the first prime after the size of the domain and `k` is the size of the range.
-
-### Word Matching
-
-After running the stream for a lot of tweets, I realized there's a lot of close matches between words, such as `COVID-19` versus `covid`. If applicable, each algorithm will first check for any close word matches on the arrival of a new token.
-
 ## Next Steps
 
 ### Web Interface
 
 I am planning to build an iteractive web app for better interaction with the algorithms, and to visualize how these streaming algorithms manipulate data in real-time. For example, for Misra-Gries, I want to animate the **size** of incoming tokens (words) to demonstrate their predicted accumulated counts held by the algorithm.
+
+### Improvements
+
+I want to improve the word matching process to better condense words based on similarity and gramatical connections. I also want to devise a better hashing method from word strings to integers that is more suited for this particular application. This would involve factoring in the domain of possible strings (length, arrangement of characters) to make the hashing more tailored to English words.

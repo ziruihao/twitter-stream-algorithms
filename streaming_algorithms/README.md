@@ -25,6 +25,10 @@ class AbstractStreamingAlgorithm(abc.ABC):
         pass
 ```
 
+### Word Matching
+
+After running the stream for a lot of tweets, I realized there's a lot of close matches between words, such as `COVID-19` versus `covid`. If applicable, each algorithm will first check for any close word matches on the arrival of a new token.
+
 ## Word to Number
 
 Words are hashed to a 16-bit integer using Python's classic `hash` functionality. I tried implementing other hasing techniques, found in [`word_to_number.py`](../word_to_number.py), but found this to be the fasted and most space-efficient while preserving as much uniqueness as possible.
