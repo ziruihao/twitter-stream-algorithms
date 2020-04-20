@@ -4,7 +4,7 @@ After learning a few stream algorithms from COSC 35 (@ Dartmouth College taught 
 
 The first question was what kind of stream data can a college student get access to? The easiest one was from a platform that is very much just streams of data - Twitter.
 
-![twitter hashtags streams](https://github.com/ziruihao/twitter-stream-algorithms/blob/master/demo.gif "Twitter hashtags streaming")
+![twitter hashtags streams](https://github.com/ziruihao/twitter-stream-algorithms/blob/master/misc/demo.gif "Twitter hashtags streaming")
 
 ### Get Started
 
