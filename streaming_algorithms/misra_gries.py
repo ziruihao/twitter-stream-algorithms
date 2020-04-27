@@ -25,7 +25,7 @@ class MisraGries(AbstractStreamingAlgorithm):
             
         else:
             # if there is still space to log this token
-            if (len(self.freqs.keys()) < self.k):
+            if (len(self.freqs.keys()) < self.k - 1):
                 self.freqs[token] = 1
             else:
                 # decrement all freqs
